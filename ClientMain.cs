@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 class HelloWorldClient
 {
@@ -12,13 +13,15 @@ class HelloWorldClient
             new EndpointAddress(serviceUrl));
 
         IHelloWorld proxy = factory.CreateChannel();
+        string input;
+        while (true) {
+            Console.Write("Input: ");
+            input = Console.ReadLine();
 
-        Console.Write("Name: ");
-        string name = Console.ReadLine();
-
-        string response = proxy.GetHelloWorldAsString(name);
-        Console.WriteLine("Server Response: " + response);
-
+            string response = proxy.GetHelloWorldAsString(input);
+            Console.WriteLine(response);
+        }
+        
         ((IClientChannel)proxy).Close();
         factory.Close();
     }
